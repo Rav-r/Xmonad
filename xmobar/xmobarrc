@@ -1,0 +1,29 @@
+Config {
+  font = "xft:JetBrainsMono Nerd Font:size=10"
+  , additionalFonts = [ "xft:Symbols Nerd Font Mono:size=10" ]
+  , iconRoot = "/usr/share/icons" -- optional, for png icons
+  , border = NoBorder
+  , bgColor = "#1e1e2e"
+  , fgColor = "#cdd6f4"
+  , alpha = 255
+  , position = TopSize C 100 30
+  , lowerOnStart = True
+  , hideOnStart = False
+  , allDesktops = True
+  , persistent = True
+  , commands = [
+      Run StdinReader
+    , Run Date "<fc=#89b4fa>%a %b %_d %H:%M</fc>" "date" 10
+    , Run Com "/bin/bash" ["-c", "~/.config/xmobar/scripts/volume.sh"] "volume" 10
+    , Run Battery
+        [ "-t", "<acstatus>: <left>%"
+        , "--", "-O", "🔌", "-i", "⚡", "-o", "🔋"
+        ] 600
+    , Run Com "/bin/bash" ["-c", "~/.config/xmobar/scripts/wifi.sh"] "wifi" 20
+    , Run Com "/bin/bash" ["-c", "checkupdates | wc -l"] "updates" 600
+    , Run Com "/bin/bash" ["-c", "~/.config/xmobar/scripts/bluetooth-status.sh"] "bluetooth" 10
+    ]
+  , sepChar = "%"
+  , alignSep = "}{"
+  , template = "%StdinReader% }{ %updates% 📦 | <action=`~/.config/xmobar/scripts/bluetooth.sh`>%bluetooth%</action> | %wifi% | %battery% | <action=`~/.config/xmobar/scripts/volume-click.sh`>%volume%</action> | %date%     "
+}
